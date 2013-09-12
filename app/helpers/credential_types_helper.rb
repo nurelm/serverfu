@@ -1,2 +1,0 @@
-module CredentialTypesHelper
-end
