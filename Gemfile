@@ -10,7 +10,7 @@ gem 'sqlite3'
 gem 'sass-rails', '~> 4.0.0'
 
 # Does this work for rails 4?
-gem 'bootstrap-sass'
+gem 'bootstrap-sass', :github => 'thomas-mcdonald/bootstrap-sass', branch: '3'
 
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
