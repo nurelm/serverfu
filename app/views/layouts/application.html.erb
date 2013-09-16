@@ -2,8 +2,9 @@
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= content_for?(:title) ? yield(:title) : "Rails Bootstrap" %></title>
-    <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "Rails Bootstrap" %>">
+    <title><%= content_for?(:title) ? yield(:title) : "ServerFu" %></title>
+    <meta name="description"
+          content="<%= content_for?(:description) ? yield(:description) : "ServerFu" %>">
     <%= stylesheet_link_tag "application", :media => "all" %>
     <%= javascript_include_tag "application" %>
     <%= csrf_meta_tags %>
@@ -16,9 +17,23 @@
     </div>
 
     <div class="container">
-      <div class="starter-template">
-        <%= render 'layouts/messages' %>
-        <%= yield %>
+      <div class="row">
+        <div class="col-md-2">
+          <h3>Hosts</h3>
+        </div>
+        <div class="col-md-10">
+          <div class="input-group">
+            <input type="text" class="form-control">
+            <span class="input-group-btn">
+              <button class="btn btn-default" type="button">
+                <span class="glyphicon glyphicon-search"></span>
+              </button>
+            </span>
+          </div>
+          <div class="spacer-v10"></div>
+          <%= render 'layouts/messages' %>
+          <%= yield %>
+        </div>
       </div>
     </div><!-- /.container -->
 
