@@ -1,0 +1,24 @@
+<div class="row">
+  <div class="col-md-2">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <%= link_to "ServerFu", root_path, :class => 'navbar-brand' %>
+    </div>
+  </div>
+  <div class="col-md-10">
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <%= nav_link "Overview", "/" %>
+        <%= nav_link "Hosts", hosts_path %>
+        <%= nav_link "Servers", servers_path %>
+        <%= nav_link "Clients", clients_path %>
+        <%= nav_link "Sites", sites_path %>
+        <%= nav_link "Domains", domains_path %>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</div>

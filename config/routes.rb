@@ -1,4 +1,7 @@
 Serverfu4::Application.routes.draw do
+  get "overview/index"
+  root to: "overview#index"
+
   resources :credential_types
   resources :credentials
   resources :ips
