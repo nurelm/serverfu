@@ -1,0 +1,17 @@
+<% content_for :sidebar do %>
+  <h3>Hosts</h3>
+  <div class="list-group">
+  <% @hosts.each do |host| %>
+    <a href="<%= host_url(host) %>"
+       class="list-group-item<%= @host.id == host.id ? " active" : "" %>">
+      <%= host.name %>
+    </a>
+  <% end %>
+  </div>
+<% end %>
+
+<ul class="nav nav-tabs">
+  <li class="active"><a href="#">Servers</a></li>
+  <li><a href="#">Contacts</a></li>
+  <li><a href="#">Notes</a></li>
+</ul>
