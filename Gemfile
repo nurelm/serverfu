@@ -6,11 +6,10 @@ gem 'rails', '4.0.0'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
 
-# Use SCSS for stylesheets
+# Bootstrap, SASS, HAML
 gem 'sass-rails', '~> 4.0.0'
-
-# Does this work for rails 4?
 gem 'bootstrap-sass', :github => 'thomas-mcdonald/bootstrap-sass', branch: '3'
+gem 'haml'
 
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'

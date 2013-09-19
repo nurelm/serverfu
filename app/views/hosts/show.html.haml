@@ -1,0 +1,43 @@
+- content_for :sidebar do
+  %h3 Hosts
+  .list-group
+    - @hosts.each do |host|
+      = link_to host_url(host), class: "list-group-item" + ((@host.id == host.id) ? " active" : "") do
+        = host.name
+
+%ul.nav.nav-tabs#tabs
+  %li.active
+    %a(href="#servers" data-toggle="tab")
+      Servers 
+      %span.badge= @host.servers.length
+  %li
+    %a(href="#contacts" data-toggle="tab")
+      Contacts
+      %span.badge= @host.contacts.length
+  %li
+    %a(href="#notes" data-toggle="tab")
+      Notes
+      %span.badge= @host.notes.length
+
+.tab-content
+  .tab-pane.active#servers
+    - if @host.servers.length == 0 then
+      - @host.servers.each do |server|
+        = server.name
+        %br
+    - else
+      No servers.
+  .tab-pane.active#contacts
+    - if @host.contacts.length == 0 then
+      - @host.contacts.each do |contact|
+        = contact.name
+        %br
+    - else
+      No contacts.
+  .tab-pane.active#notes
+    - if @host.notes.length == 0 then
+      - @host.notes.each do |note|
+        = note.name
+        %br
+    - else
+      No notes.
