@@ -27,14 +27,14 @@
         %br
     - else
       No servers.
-  .tab-pane.active#contacts
+  .tab-pane#contacts
     - if @host.contacts.length > 0 then
       - @host.contacts.each do |contact|
         = contact.name
         %br
     - else
       No contacts.
-  .tab-pane.active#notes
+  .tab-pane#notes
     - if @host.notes.length > 0 then
       - @host.notes.each do |note|
         = note.name
