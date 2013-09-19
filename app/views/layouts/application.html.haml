@@ -1,0 +1,28 @@
+!!!
+%html
+  %head
+    %meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    %title= content_for?(:title) ? yield(:title) : "ServerFu"
+    %meta(name="description" content="#{ content_for?(:description) ? yield(:description) : "ServerFu" }")
+    = stylesheet_link_tag "application", :media => "all"
+    = javascript_include_tag "application"
+    = csrf_meta_tags
+
+  %body
+    .navbar.navbar-inverse.navbar-fixed-top
+      .container
+        = render 'layouts/navigation'
+
+    .container
+      .row
+        .col-md-2
+          = yield :sidebar
+        .col-md-10
+          .input-group
+            %input(type="text" class="form-control")
+            %span.input-group-btn
+              %button.btn btn-default(type="button")
+                %span.glyphicon glyphicon-search"
+          .spacer-v10
+          = render 'layouts/messages'
+          = yield
