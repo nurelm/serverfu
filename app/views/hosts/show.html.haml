@@ -23,21 +23,24 @@
   .tab-pane.active#servers
     - if @host.servers.length > 0 then
       - @host.servers.each do |server|
-        = server.name
+        = link_to server_url(server) do
+          = server.name
         %br
     - else
       No servers.
   .tab-pane#contacts
     - if @host.contacts.length > 0 then
       - @host.contacts.each do |contact|
-        = contact.name
+        = link_to contact_url(contact) do
+          = contact.name
         %br
     - else
       No contacts.
   .tab-pane#notes
     - if @host.notes.length > 0 then
       - @host.notes.each do |note|
-        = note.name
+        = link_to note_url(note) do
+          = note.name
         %br
     - else
       No notes.
