@@ -32,7 +32,7 @@
     - if @host.contacts.length > 0 then
       - @host.contacts.each do |contact|
         = link_to contact_url(contact) do
-          = contact.name
+          = "#{contact.first_name} #{contact.last_name}"
         %br
     - else
       No contacts.
@@ -40,7 +40,7 @@
     - if @host.notes.length > 0 then
       - @host.notes.each do |note|
         = link_to note_url(note) do
-          = note.name
+          = note.note
         %br
     - else
       No notes.
