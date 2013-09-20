@@ -6,7 +6,7 @@
         %span.icon-bar
         %span.icon-bar
       = link_to "ServerFu", root_path, class: 'navbar-brand'
-  .col-md-10
+  .col-md-7
     .collapse.navbar-collapse
       %ul.nav.navbar-nav
         = nav_link "Overview", "/"
@@ -15,3 +15,10 @@
         = nav_link "Clients", clients_path
         = nav_link "Sites", sites_path
         = nav_link "Domains", domains_path
+  .col-md-3
+    .spacer-v10
+    .input-group
+      %input.form-control.input-sm(type="text")
+      %span.input-group-btn
+        %button.btn.btn-default.btn-sm(type="button")
+          %span.glyphicon.glyphicon-search

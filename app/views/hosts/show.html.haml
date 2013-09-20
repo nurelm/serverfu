@@ -1,5 +1,4 @@
 - content_for :sidebar do
-  %h3 Hosts
   .list-group
     - @hosts.each do |host|
       = link_to host_url(host), class: "list-group-item" + ((@host.id == host.id) ? " active" : "") do
@@ -9,15 +8,15 @@
   %li.active
     %a(href="#servers" data-toggle="tab")
       Servers 
-      %span.badge= @host.servers.length
+      %span.label.label-info= @host.servers.length
   %li
     %a(href="#contacts" data-toggle="tab")
       Contacts
-      %span.badge= @host.contacts.length
+      %span.label.label-info= @host.contacts.length
   %li
     %a(href="#notes" data-toggle="tab")
       Notes
-      %span.badge= @host.notes.length
+      %span.label.label-info= @host.notes.length
 
 .tab-content
   .tab-pane.active#servers
@@ -26,9 +25,9 @@
       %table.table.table-hover
         %thead
           %tr
-            %th Name
-            %th Clients
-            %th Sites
+            %th(width="60%") Name
+            %th(width="20%") Clients
+            %th(width="20%") Sites
         %tbody
           - @host.servers.each do |server|
             %tr
@@ -45,9 +44,9 @@
       %table.table.table-hover
         %thead
           %tr
-            %th Last Name
-            %th First Name
-            %th Description
+            %th(width="20%") Last Name
+            %th(width="20%") First Name
+            %th(width="60%") Description
         %tbody
           - @host.contacts.each do |contact|
             %tr
@@ -68,7 +67,7 @@
       %table.table.table-hover
         %thead
           %tr
-            %th Created On
+            %th(width="30%") Created On
             %th Note
         %tbody
           - @host.notes.each do |note|
