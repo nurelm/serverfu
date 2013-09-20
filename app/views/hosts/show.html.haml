@@ -22,25 +22,62 @@
 .tab-content
   .tab-pane.active#servers
     - if @host.servers.length > 0 then
-      - @host.servers.each do |server|
-        = link_to server_url(server) do
-          = server.name
-        %br
+      .spacer-v10
+      %table.table.table-hover
+        %thead
+          %tr
+            %th Name
+            %th Clients
+            %th Sites
+        %tbody
+          - @host.servers.each do |server|
+            %tr
+              %td
+                = link_to server_url(server) do
+                  = server.name
+              %td 22
+              %td 33
     - else
       No servers.
   .tab-pane#contacts
     - if @host.contacts.length > 0 then
-      - @host.contacts.each do |contact|
-        = link_to contact_url(contact) do
-          = "#{contact.first_name} #{contact.last_name}"
-        %br
+      .spacer-v10
+      %table.table.table-hover
+        %thead
+          %tr
+            %th Last Name
+            %th First Name
+            %th Description
+        %tbody
+          - @host.contacts.each do |contact|
+            %tr
+              %td
+                = link_to contact_url(contact) do
+                  = contact.last_name
+              %td
+                = link_to contact_url(contact) do
+                  = contact.first_name
+              %td
+                = link_to contact_url(contact) do
+                  = contact.description
     - else
       No contacts.
   .tab-pane#notes
     - if @host.notes.length > 0 then
-      - @host.notes.each do |note|
-        = link_to note_url(note) do
-          = note.note
-        %br
+      .spacer-v10
+      %table.table.table-hover
+        %thead
+          %tr
+            %th Created On
+            %th Note
+        %tbody
+          - @host.notes.each do |note|
+            %tr
+              %td
+                = link_to note_url(note) do
+                  = note.created_at
+              %td
+                = link_to note_url(note) do
+                  = note.note
     - else
       No notes.
