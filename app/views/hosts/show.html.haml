@@ -3,6 +3,8 @@
     - @hosts.each do |host|
       = link_to host_url(host), class: "list-group-item" + ((@host.id == host.id) ? " active" : "") do
         = host.name
+    %a.list-group-item
+      %p.text-muted + Add Host
 
 %ul.nav.nav-tabs#tabs
   %li.active
@@ -25,17 +27,20 @@
       %table.table.table-hover
         %thead
           %tr
-            %th(width="60%") Name
+            %th(width="30%") Name
             %th(width="20%") Clients
-            %th(width="20%") Sites
+            %th Sites
+            %th(width="10%") &nbsp;
         %tbody
           - @host.servers.each do |server|
             %tr
               %td
+                = best_in_place server, :name, type: :input
+              %td= server.num_clients
+              %td= server.num_sites
+              %td
                 = link_to server_url(server) do
-                  = server.name
-              %td 22
-              %td 33
+                  %span.glyphicon.glyphicon-chevron-right
     - else
       No servers.
   .tab-pane#contacts
@@ -44,21 +49,22 @@
       %table.table.table-hover
         %thead
           %tr
-            %th(width="20%") Last Name
+            %th(width="30%") Last Name
             %th(width="20%") First Name
-            %th(width="60%") Description
+            %th Description
+            %th(width="10%") &nbsp;
         %tbody
           - @host.contacts.each do |contact|
             %tr
               %td
-                = link_to contact_url(contact) do
-                  = contact.last_name
+                = contact.last_name
+              %td
+                = contact.first_name
+              %td
+                = contact.description
               %td
                 = link_to contact_url(contact) do
-                  = contact.first_name
-              %td
-                = link_to contact_url(contact) do
-                  = contact.description
+                  %span.glyphicon.glyphicon-chevron-right
     - else
       No contacts.
   .tab-pane#notes
@@ -69,14 +75,16 @@
           %tr
             %th(width="30%") Created On
             %th Note
+            %th(width="10%") &nbsp;
         %tbody
           - @host.notes.each do |note|
             %tr
               %td
-                = link_to note_url(note) do
-                  = note.created_at
+                = note.created_at
+              %td
+                = note.note
               %td
                 = link_to note_url(note) do
-                  = note.note
+                  %span.glyphicon.glyphicon-chevron-right
     - else
       No notes.

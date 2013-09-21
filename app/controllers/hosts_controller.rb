@@ -10,4 +10,5 @@ class HostsController < ApplicationController
     @host = Host.find(params[:id])
     @hosts = Host.find(:all, order: 'name')
   end
+
 end

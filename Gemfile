@@ -6,11 +6,6 @@ gem 'rails', '4.0.0'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
 
-# Bootstrap, SASS, HAML
-gem 'sass-rails', '~> 4.0.0'
-gem 'bootstrap-sass', :github => 'thomas-mcdonald/bootstrap-sass', branch: '3'
-gem 'haml'
-
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 
@@ -45,3 +40,10 @@ end
 
 # Use debugger
 gem 'debugger', group: [:development, :test]
+
+# Project specific
+gem 'sass-rails', '~> 4.0.0'
+gem 'bootstrap-sass', :github => 'thomas-mcdonald/bootstrap-sass', branch: '3'
+gem 'haml'
+gem 'best_in_place', :github => 'bernat/best_in_place', branch: 'rails-4'
+
