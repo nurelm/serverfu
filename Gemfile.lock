@@ -1,4 +1,13 @@
 GIT
+  remote: git://github.com/bernat/best_in_place.git
+  revision: 366413be357d65cdf47031e928aea969f72e3659
+  branch: rails-4
+  specs:
+    best_in_place (2.0.3)
+      jquery-rails
+      rails (~> 4)
+
+GIT
   remote: git://github.com/thomas-mcdonald/bootstrap-sass.git
   revision: 0e88056ac5d58fb0bbd23d3fe929eac01712d964
   branch: 3
@@ -125,6 +134,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  best_in_place!
   bootstrap-sass!
   coffee-rails (~> 4.0.0)
   debugger
