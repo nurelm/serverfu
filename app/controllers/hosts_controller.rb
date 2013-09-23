@@ -10,7 +10,6 @@ class HostsController < ApplicationController
     @host = Host.find(params[:id])
     @hosts = Host.find(:all, order: 'name')
     @new_host = Host.new
-    @new_host.name = "New Host"
   end
 
   def create

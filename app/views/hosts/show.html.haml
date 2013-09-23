@@ -5,10 +5,7 @@
         = host.name
   = form_for :new_host, url: hosts_path do |f|
     %p
-      = f.label :name
-      = f.text_field :name
-    %p
-      = f.submit
+      = f.text_field :name, class: 'form-control', placeholder: 'New Host'
 
 %ul.nav.nav-tabs#tabs
   %li.active
