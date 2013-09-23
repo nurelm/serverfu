@@ -3,8 +3,12 @@
     - @hosts.each do |host|
       = link_to host_url(host), class: "list-group-item" + ((@host.id == host.id) ? " active" : "") do
         = host.name
-    %a.list-group-item
-      %p.text-muted + Add Host
+  = form_for :new_host, url: hosts_path do |f|
+    %p
+      = f.label :name
+      = f.text_field :name
+    %p
+      = f.submit
 
 %ul.nav.nav-tabs#tabs
   %li.active
