@@ -12,21 +12,22 @@
             %span.glyphicon.glyphicon-plus
 
 %ul.nav.nav-tabs#tabs
-  %li.active
+  %li{:class => ('active' if params['current_tab'] == 'servers' || params['current_tab'] == nil)}
     %a(href="#servers" data-toggle="tab")
       Servers 
       %span.label.label-info= @host.servers.length
-  %li
+  %li{:class => ('active' if params['current_tab'] == 'contacts')}
     %a(href="#contacts" data-toggle="tab")
       Contacts
       %span.label.label-info= @host.contacts.length
-  %li
+  %li{:class => ('active' if params['current_tab'] == 'notes')}
     %a(href="#notes" data-toggle="tab")
       Notes
       %span.label.label-info= @host.notes.length
 
 .tab-content
-  .tab-pane.active#servers
+  .tab-pane#servers{:class => ('active' if params['current_tab'] == 'servers' || params['current_tab'] == nil)}
+
     .spacer-v10
     %table.table.table-hover
       %thead
@@ -55,7 +56,7 @@
                     %span.glyphicon.glyphicon-plus
           %td &nbsp;
 
-  .tab-pane#contacts
+  .tab-pane#contacts{:class => ('active' if params['current_tab'] == 'contacts')}
     .spacer-v10
     %table.table.table-hover
       %thead
@@ -85,7 +86,8 @@
                 = f.button class: 'btn btn-default' do
                   %span.glyphicon.glyphicon-plus
         %td &nbsp;
-  .tab-pane#notes
+
+  .tab-pane#notes{:class => ('active' if params['current_tab'] == 'notes')}
     .spacer-v10
     %table.table.table-hover
       %thead

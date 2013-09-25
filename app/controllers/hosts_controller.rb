@@ -30,7 +30,7 @@ class HostsController < ApplicationController
     if params[:new_server]
       server = @host.servers.build server_params
       if server.save
-        redirect_to @host
+        redirect_to host_path(current_tab: 'servers')
       else
         # flash error
       end
@@ -39,7 +39,7 @@ class HostsController < ApplicationController
     if params[:new_contact]
       contact = @host.contacts.build contact_params
       if contact.save
-        redirect_to @host
+        redirect_to host_path(current_tab: 'contacts')
       else
         # flash error
       end
@@ -48,7 +48,7 @@ class HostsController < ApplicationController
     if params[:new_note]
       note = @host.notes.build note_params
       if note.save
-        redirect_to @host
+        redirect_to host_path(current_tab: 'notes')
       else
         # flash error
       end
