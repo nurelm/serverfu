@@ -10,6 +10,7 @@ class HostsController < ApplicationController
     @host = Host.find(params[:id])
     @hosts = Host.find(:all, order: 'name')
     @new_host = Host.new
+    @new_server = Server.new
   end
 
   def create
@@ -21,11 +22,26 @@ class HostsController < ApplicationController
     end
    end
 
+  def update
+    @host = Host.find(params[:id])
+    if params[:new_server]
+      server = @host.servers.build server_params
+      if server.save
+        redirect_to @host
+      else
+        # flash error
+      end
+    end
+  end
 
   private
 
   def host_params
     params.require(:new_host).permit(:name)
+  end
+
+  def server_params
+    params.require(:new_server).permit(:name)
   end
 
 end

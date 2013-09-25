@@ -3,9 +3,13 @@
     - @hosts.each do |host|
       = link_to host_url(host), class: "list-group-item" + ((@host.id == host.id) ? " active" : "") do
         = host.name
-  = form_for :new_host, url: hosts_path do |f|
-    %p
-      = f.text_field :name, class: 'form-control', placeholder: 'New Host'
+  %p
+    = form_for :new_host, url: hosts_path do |f|
+      .input-group
+        = f.text_field :name, class: 'form-control', placeholder: 'New Host'
+        %span.input-group-btn
+          = f.button class: 'btn btn-default' do
+            %span.glyphicon.glyphicon-plus
 
 %ul.nav.nav-tabs#tabs
   %li.active
@@ -23,27 +27,34 @@
 
 .tab-content
   .tab-pane.active#servers
-    - if @host.servers.length > 0 then
-      .spacer-v10
-      %table.table.table-hover
-        %thead
+    .spacer-v10
+    %table.table.table-hover
+      %thead
+        %tr
+          %th(width="30%") Name
+          %th(width="20%") Clients
+          %th Sites
+          %th(width="10%") &nbsp;
+      %tbody
+        - @host.servers.each do |server|
           %tr
-            %th(width="30%") Name
-            %th(width="20%") Clients
-            %th Sites
-            %th(width="10%") &nbsp;
-        %tbody
-          - @host.servers.each do |server|
-            %tr
-              %td
-                = best_in_place server, :name, type: :input
-              %td= server.num_clients
-              %td= server.num_sites
-              %td
-                = link_to server_url(server) do
-                  %span.glyphicon.glyphicon-chevron-right
-    - else
-      No servers.
+            %td
+              = best_in_place server, :name, type: :input
+            %td= server.num_clients
+            %td= server.num_sites
+            %td
+              = link_to server_url(server) do
+                %span.glyphicon.glyphicon-chevron-right
+        %tr
+          %td(colspan="3")
+            = form_for :new_server, url: host_path(@host), method: :put, class: 'form-inline' do |f|
+              .input-group
+                = f.text_field :name, class: 'form-control', placeholder: 'New Server'
+                %span.input-group-btn
+                  = f.button class: 'btn btn-default' do
+                    %span.glyphicon.glyphicon-plus
+          %td &nbsp;
+
   .tab-pane#contacts
     - if @host.contacts.length > 0 then
       .spacer-v10
