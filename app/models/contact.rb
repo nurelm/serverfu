@@ -3,6 +3,4 @@ class Contact < ActiveRecord::Base
   has_many :addresses
   has_many :emails
   has_many :phones
-
-  attr_accessible :description, :first_name, :last_name, :middle_name
 end

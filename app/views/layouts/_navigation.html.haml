@@ -1,0 +1,24 @@
+.row
+  .col-md-2
+    .navbar-header
+      %button.navbar-toggle(type="button" data-toggle="collapse" data-target=".navbar-collapse")
+        %span.icon-bar
+        %span.icon-bar
+        %span.icon-bar
+      = link_to "ServerFu", root_path, class: 'navbar-brand'
+  .col-md-7
+    .collapse.navbar-collapse
+      %ul.nav.navbar-nav
+        = nav_link "Overview", "/"
+        = nav_link "Hosts", hosts_path
+        = nav_link "Servers", servers_path
+        = nav_link "Clients", clients_path
+        = nav_link "Sites", sites_path
+        = nav_link "Domains", domains_path
+  .col-md-3
+    .spacer-v10
+    .input-group
+      %input.form-control.input-sm(type="text")
+      %span.input-group-btn
+        %button.btn.btn-default.btn-sm(type="button")
+          %span.glyphicon.glyphicon-search
