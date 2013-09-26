@@ -22,3 +22,7 @@
           .spacer-v10
           = render 'layouts/messages'
           = yield
+    #footer
+      .container
+        %p.text-muted.text-right
+          %small ServerFu Version: #{APP_VERSION::STRING}
