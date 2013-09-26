@@ -8,7 +8,13 @@ class HostsController < ApplicationController
 
   def show
     @host = Host.find(params[:id])
-    @hosts = Host.find(:all, order: 'name')
+
+    @host_servers = @host.servers.order(:name).page params[:servers_page]
+    @host_contacts = @host.contacts.order(:last_name).page params[:contacts_page]
+    @host_notes = @host.notes.order('created_at DESC').page params[:notes_page]
+
+    @hosts = Host.order('name').page params[:hosts_page]
+
     @new_host = Host.new
     @new_server = Server.new
     @new_contact = Contact.new

@@ -10,6 +10,7 @@
         %span.input-group-btn
           = f.button class: 'btn btn-default' do
             %span.glyphicon.glyphicon-plus
+  = paginate @hosts, param_name: 'hosts_page'
 
 %ul.nav.nav-tabs#tabs
   %li{:class => ('active' if params['current_tab'] == 'servers' || params['current_tab'] == nil)}
@@ -37,7 +38,7 @@
           %th Sites
           %th(width="10%") &nbsp;
       %tbody
-        - @host.servers.each do |server|
+        - @host_servers.each do |server|
           %tr
             %td
               = best_in_place server, :name, type: :input
@@ -55,6 +56,9 @@
                   = f.button class: 'btn btn-default' do
                     %span.glyphicon.glyphicon-plus
           %td &nbsp;
+        %tr
+          %td(colspan="4")
+            = paginate @host_servers, param_name: 'servers_page'
 
   .tab-pane#contacts{:class => ('active' if params['current_tab'] == 'contacts')}
     .spacer-v10
@@ -66,7 +70,7 @@
           %th Description
           %th(width="10%") &nbsp;
       %tbody
-        - @host.contacts.each do |contact|
+        - @host_contacts.each do |contact|
           %tr
             %td
               = best_in_place contact, :last_name, type: :input
@@ -86,6 +90,9 @@
                 = f.button class: 'btn btn-default' do
                   %span.glyphicon.glyphicon-plus
         %td &nbsp;
+      %tr
+        %td(colspan="4")
+          = paginate @host_contacts, param_name: 'contacts_page', params: {current_tab: 'contacts'}
 
   .tab-pane#notes{:class => ('active' if params['current_tab'] == 'notes')}
     .spacer-v10
@@ -96,7 +103,7 @@
           %th Note
           %th(width="10%") &nbsp;
       %tbody
-        - @host.notes.each do |note|
+        - @host_notes.each do |note|
           %tr
             %td
               = note.created_at
@@ -113,3 +120,6 @@
             = f.button class: 'btn btn-default' do
               Add Note
               %span.glyphicon.glyphicon-plus
+      %tr
+        %td(colspan="3")
+          = paginate @host_notes, param_name: 'notes_page', params: {current_tab: 'notes'}
