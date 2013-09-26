@@ -18,7 +18,8 @@ class HostsController < ApplicationController
   def create
     @host = Host.new host_params
     if @host.save
-      redirect_to @host, notice: 'Host was successfully created.'
+      redirect_to @host,
+                  notice: (t 'success.create', thing: 'Host')
     else
       render action: "create"
     end
@@ -30,27 +31,30 @@ class HostsController < ApplicationController
     if params[:new_server]
       server = @host.servers.build server_params
       if server.save
-        redirect_to host_path(current_tab: 'servers')
+        redirect_to host_path(current_tab: 'servers'),
+                    notice: (t 'success.create', thing: 'Server')
       else
-        # flash error
+        flash.now[:error] = t 'error.create', thing: 'Server'
       end
     end
 
     if params[:new_contact]
       contact = @host.contacts.build contact_params
       if contact.save
-        redirect_to host_path(current_tab: 'contacts')
+        redirect_to host_path(current_tab: 'contacts'),
+                    notice: (t 'success.create', thing: 'Contact')
       else
-        # flash error
+        flash.now[:error] = t 'error.create', thing: 'Contact'
       end
     end
 
     if params[:new_note]
       note = @host.notes.build note_params
       if note.save
-        redirect_to host_path(current_tab: 'notes')
+        redirect_to host_path(current_tab: 'notes'),
+                    notice: (t 'success.create', thing: 'Note')
       else
-        # flash error
+        flash.now[:error] = t 'error.create', thing: 'Note'
       end
     end
   end
