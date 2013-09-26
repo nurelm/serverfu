@@ -5,3 +5,11 @@ en:
     
   error:
     create: 'There was a problem creating %{thing}.'
+
+  views:
+    pagination:
+      first: "&laquo;"
+      last: "&raquo;"
+      previous: "&lsaquo;"
+      next: "&rsaquo;"
+      truncate: "..."
