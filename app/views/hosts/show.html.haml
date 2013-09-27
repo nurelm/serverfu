@@ -2,7 +2,7 @@
   %ul.list-group
     - @hosts.each do |host|
       %li.list-group-item{:class => ('active' if @host.id == host.id)}
-        = host.name
+        = best_in_place host, :name, type: :input
         = link_to host_url(host) do
           %span.glyphicon.glyphicon-chevron-right
   %p

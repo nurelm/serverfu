@@ -22,7 +22,7 @@ class HostsController < ApplicationController
   end
 
   def create
-    @host = Host.new host_params
+    @host = Host.new new_host_params
     if @host.save
       redirect_to @host,
                   notice: (t 'success.create', thing: 'Host')
@@ -33,6 +33,19 @@ class HostsController < ApplicationController
 
   def update
     @host = Host.find(params[:id])
+
+    if params[:host]
+      respond_to do |format|
+        if @host.update_attributes(host_params)
+          format.html { redirect_to @host,
+                        notice: (t 'success.update', thing: 'Host') }
+          format.json { respond_with_bip(@host) }
+        else
+          format.html { render :action => "edit" }
+          format.json { respond_with_bip(@host) }
+        end
+      end
+    end
 
     if params[:new_server]
       server = @host.servers.build server_params
@@ -68,6 +81,10 @@ class HostsController < ApplicationController
   private
 
   def host_params
+    params.require(:host).permit(:name)
+  end
+
+  def new_host_params
     params.require(:new_host).permit(:name)
   end
 
