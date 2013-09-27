@@ -1,8 +1,10 @@
 - content_for :sidebar do
-  .list-group
+  %ul.list-group
     - @hosts.each do |host|
-      = link_to host_url(host), class: "list-group-item" + ((@host.id == host.id) ? " active" : "") do
+      %li.list-group-item{:class => ('active' if @host.id == host.id)}
         = host.name
+        = link_to host_url(host) do
+          %span.glyphicon.glyphicon-chevron-right
   %p
     = form_for :new_host, url: hosts_path do |f|
       .input-group
