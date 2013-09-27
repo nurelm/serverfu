@@ -3,7 +3,14 @@
     - @hosts.each do |host|
       %li.list-group-item{:class => ('active' if @host.id == host.id)}
         = best_in_place host, :name, type: :input
-        = link_to host_url(host) do
+        - if host.servers.length == 0
+          = link_to host_url(host, hosts_page: params['hosts_page']),
+                    confirm: t('confirm.delete', name: host.name),
+                    method: :delete do
+            %span.glyphicon.glyphicon-remove
+        - else
+          %span.glyphicon.glyphicon-remove.text-muted
+        = link_to host_url(host, hosts_page: params['hosts_page']) do
           %span.glyphicon.glyphicon-chevron-right
   %p
     = form_for :new_host, url: hosts_path do |f|

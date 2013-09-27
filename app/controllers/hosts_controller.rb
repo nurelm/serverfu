@@ -78,6 +78,18 @@ class HostsController < ApplicationController
     end
   end
 
+  def destroy
+    @host = Host.find(params[:id])
+
+    if @host.destroy
+      redirect_to hosts_path,
+                  notice: (t 'success.delete', thing: @host.name)
+    else
+      flash.now[:error] = t 'error.create', thing: 'Note'
+    end
+  end
+
+
   private
 
   def host_params
