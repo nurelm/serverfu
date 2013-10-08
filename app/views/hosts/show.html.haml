@@ -54,6 +54,13 @@
             %td= server.num_clients
             %td= server.num_sites
             %td
+              - if server.clients.length == 0
+                = link_to server_url(server),
+                          confirm: t('confirm.delete', name: server.name),
+                          method: :delete do
+                  %span.glyphicon.glyphicon-remove
+              - else
+                %span.glyphicon.glyphicon-remove.text-muted
               = link_to server_url(server) do
                 %span.glyphicon.glyphicon-chevron-right
     = form_for :new_server, url: host_path(@host), method: :put, class: 'form-inline' do |f|

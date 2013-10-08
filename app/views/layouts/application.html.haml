@@ -26,3 +26,6 @@
       .container
         %p.text-muted.text-right
           %small ServerFu Version: #{APP_VERSION::STRING}
+          - if Rails.env.development?
+            = debug params
+            %small= session[:controller]
