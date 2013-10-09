@@ -4,12 +4,33 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   before_action :set_show_state, only: [:show]
+  before_action :set_tab_state, only: [:create, :edit, :update, :destroy]
 
   # Instead of calling redirect_to in create or destroy actions, calling
   # this method will go to the show method of the right controller, with
   # the right id, page, and tab params as stored in session[:view_state]
   def redirect_to_state
+    redirect_options = {
+      controller: session[:view_state][:controller],
+      action: 'show',
+      id: session[:view_state][:id] }
 
+    if session[:view_state][:sidebar_page]
+      redirect_options =
+        redirect_options.merge({sidebar_page: session[:view_state][:sidebar_page]})
+    end
+  
+    if session[:view_state][:body_page]
+      redirect_options =
+        redirect_options.merge({body_page: session[:view_state][:body_page]})
+    end
+
+    if session[:view_state][:current_tab]
+      redirect_options =
+        redirect_options.merge({current_tab: session[:view_state][:current_tab]})
+    end
+
+    redirect_to redirect_options
   end
 
 
@@ -24,12 +45,10 @@ class ApplicationController < ActionController::Base
   # 
   # page -  The current page number used in any pagination
   def set_state(state_elements = {})
-    view_state = session[:view_state]
-    if view_state == nil
-      view_state = {}
-    end
+    view_state = session[:view_state] ? session[:view_state] : {}
+    #view_state = {}
 
-    [:controller, :tab, :page, :id].each do |state_var|
+    [:controller, :id, :sidebar_page, :body_page, :current_tab].each do |state_var|
       if state_elements[state_var] != nil
         view_state[state_var] = state_elements[state_var]
       end
@@ -38,12 +57,19 @@ class ApplicationController < ActionController::Base
     session[:view_state] = view_state
   end
 
-  # Set session state variable's controller, tab and page elements based 
-  # on param hash.
+  # When hitting a show function, we can collect the controller, current
+  # object ID and pagination page and stuff it into the view_state.
   def set_show_state
     set_state controller: params[:controller],
               id: params[:id],
-              page: ControllerUtil.extract_hash(params, "page")
+              sidebar_page: params[:sidebar_page],
+              body_page: params[:body_page]
+  end
+
+  # When deleting, creating or updating we will already have everything
+  # in the session view state except whatever tab we were on
+  def set_tab_state
+    set_state current_tab: params[:current_tab]
   end
 
 end

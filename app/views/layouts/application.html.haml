@@ -28,4 +28,4 @@
           %small ServerFu Version: #{APP_VERSION::STRING}
           - if Rails.env.development?
             = debug params
-            %small= session[:controller]
+            %small= session[:view_state]

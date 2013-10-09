@@ -4,13 +4,13 @@
       %li.list-group-item{:class => ('active' if @host.id == host.id)}
         = best_in_place host, :name, type: :input
         - if host.servers.length == 0
-          = link_to host_url(host, hosts_page: params['hosts_page']),
+          = link_to host_url(host, sidebar_page: params['sidebar_page']),
                     confirm: t('confirm.delete', name: host.name),
                     method: :delete do
             %span.glyphicon.glyphicon-remove
         - else
           %span.glyphicon.glyphicon-remove.text-muted
-        = link_to host_url(host, hosts_page: params['hosts_page']) do
+        = link_to host_url(host, sidebar_page: params['sidebar_page']) do
           %span.glyphicon.glyphicon-chevron-right
   %p
     = form_for :new_host, url: hosts_path do |f|
@@ -19,7 +19,7 @@
         %span.input-group-btn
           = f.button class: 'btn btn-default' do
             %span.glyphicon.glyphicon-plus
-  = paginate @hosts, param_name: 'hosts_page'
+  = paginate @hosts, param_name: 'sidebar_page'
 
 %ul.nav.nav-tabs#tabs
   %li{:class => ('active' if params['current_tab'] == 'servers' || params['current_tab'] == nil)}
@@ -69,7 +69,7 @@
         %span.input-group-btn
           = f.button class: 'btn btn-default' do
             %span.glyphicon.glyphicon-plus
-    = paginate @host_servers, param_name: 'servers_page'
+    = paginate @host_servers, param_name: 'body_page'
 
   .tab-pane#contacts{:class => ('active' if params['current_tab'] == 'contacts')}
     .spacer-v10
@@ -98,7 +98,7 @@
         %span.input-group-btn
           = f.button class: 'btn btn-default' do
             %span.glyphicon.glyphicon-plus
-    = paginate @host_contacts, param_name: 'contacts_page', params: {current_tab: 'contacts'}
+    = paginate @host_contacts, param_name: 'body_page', params: {current_tab: 'contacts'}
 
   .tab-pane#notes{:class => ('active' if params['current_tab'] == 'notes')}
     .spacer-v10
@@ -124,4 +124,4 @@
       = f.button class: 'btn btn-default' do
         Add Note
         %span.glyphicon.glyphicon-plus
-    = paginate @host_notes, param_name: 'notes_page', params: {current_tab: 'notes'}
+    = paginate @host_notes, param_name: 'body_page', params: {current_tab: 'notes'}
