@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
   # Instead of calling redirect_to in create or destroy actions, calling
   # this method will go to the show method of the right controller, with
   # the right id, page, and tab params as stored in session[:view_state]
-  def redirect_to_state
+  def redirect_to_state(additional_options = {})
     redirect_options = {
       controller: session[:view_state][:controller],
       action: 'show',
@@ -30,9 +30,16 @@ class ApplicationController < ActionController::Base
         redirect_options.merge({current_tab: session[:view_state][:current_tab]})
     end
 
-    redirect_to redirect_options
+    redirect_to redirect_options, additional_options
   end
 
+  def get_controller_from_state
+    session[:view_state][:controller]
+  end
+
+  def get_id_from_state
+    session[:view_state][:id]
+  end
 
   private
 
@@ -46,7 +53,6 @@ class ApplicationController < ActionController::Base
   # page -  The current page number used in any pagination
   def set_state(state_elements = {})
     view_state = session[:view_state] ? session[:view_state] : {}
-    #view_state = {}
 
     [:controller, :id, :sidebar_page, :body_page, :current_tab].each do |state_var|
       if state_elements[state_var] != nil

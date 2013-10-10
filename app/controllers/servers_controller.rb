@@ -1,5 +1,20 @@
 class ServersController < ApplicationController
 
+  def create
+    if get_controller_from_state == 'hosts'
+      @host = Host.find get_id_from_state
+      server = @host.servers.build new_server_params
+    else
+      server = Server.new new_server_params
+    end
+
+    if server.save
+      redirect_to_state notice: (t 'success.create', thing: 'Server')
+    else
+      redirect_to_state error: (t 'error.create', thing: 'Server')
+    end
+  end
+  
   def update
     @server = Server.find params[:id]
    
@@ -19,7 +34,8 @@ class ServersController < ApplicationController
     @server.destroy
 
     respond_to do |format|
-      format.html { redirect_to_state }
+      format.html {
+        redirect_to_state notice: (t 'success.delete', thing: 'Server') }
       format.json { head :no_content }
     end
   end
@@ -28,6 +44,10 @@ class ServersController < ApplicationController
 
   def server_params
     params.require(:server).permit(:name)
+  end
+
+  def new_server_params
+    params.require(:new_server).permit(:name)
   end
 
 end

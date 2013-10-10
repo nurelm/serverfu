@@ -25,11 +25,11 @@ class HostsController < ApplicationController
     @host = Host.new new_host_params
     if @host.save
       redirect_to @host,
-                  notice: (t 'success.create', thing: 'Host')
+        notice: (t 'success.create', thing: 'Host')
     else
       render action: "create"
     end
-   end
+  end
 
   def update
     @host = Host.find(params[:id])
@@ -38,7 +38,7 @@ class HostsController < ApplicationController
       respond_to do |format|
         if @host.update_attributes(host_params)
           format.html { redirect_to @host,
-                        notice: (t 'success.update', thing: 'Host') }
+            notice: (t 'success.update', thing: 'Host') }
           format.json { respond_with_bip(@host) }
         else
           format.html { render :action => "edit" }
@@ -51,7 +51,7 @@ class HostsController < ApplicationController
       server = @host.servers.build server_params
       if server.save
         redirect_to host_path(current_tab: 'servers'),
-                    notice: (t 'success.create', thing: 'Server')
+          notice: (t 'success.create', thing: 'Server')
       else
         flash.now[:error] = t 'error.create', thing: 'Server'
       end
@@ -61,7 +61,7 @@ class HostsController < ApplicationController
       contact = @host.contacts.build contact_params
       if contact.save
         redirect_to host_path(current_tab: 'contacts'),
-                    notice: (t 'success.create', thing: 'Contact')
+          notice: (t 'success.create', thing: 'Contact')
       else
         flash.now[:error] = t 'error.create', thing: 'Contact'
       end
@@ -71,7 +71,7 @@ class HostsController < ApplicationController
       note = @host.notes.build note_params
       if note.save
         redirect_to host_path(current_tab: 'notes'),
-                    notice: (t 'success.create', thing: 'Note')
+          notice: (t 'success.create', thing: 'Note')
       else
         flash.now[:error] = t 'error.create', thing: 'Note'
       end
@@ -83,7 +83,7 @@ class HostsController < ApplicationController
 
     if @host.destroy
       redirect_to hosts_path,
-                  notice: (t 'success.delete', thing: @host.name)
+        notice: (t 'success.delete', thing: @host.name)
     else
       flash.now[:error] = t 'error.create', thing: 'Note'
     end

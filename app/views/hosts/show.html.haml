@@ -63,7 +63,7 @@
                 %span.glyphicon.glyphicon-remove.text-muted
               = link_to server_url(server) do
                 %span.glyphicon.glyphicon-chevron-right
-    = form_for :new_server, url: host_path(@host), method: :put, class: 'form-inline' do |f|
+    = form_for :new_server, url: servers_path, class: 'form-inline' do |f|
       .input-group
         = f.text_field :name, class: 'form-control', placeholder: 'New Server'
         %span.input-group-btn
