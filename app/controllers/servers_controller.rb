@@ -3,9 +3,9 @@ class ServersController < ApplicationController
   def create
     if get_controller_from_state == 'hosts'
       @host = Host.find get_id_from_state
-      server = @host.servers.build new_server_params
+      server = @host.servers.build server_params(:new_server)
     else
-      server = Server.new new_server_params
+      server = Server.new server_params(:new_server)
     end
 
     if server.save
@@ -42,12 +42,8 @@ class ServersController < ApplicationController
 
   private
 
-  def server_params
-    params.require(:server).permit(:name)
-  end
-
-  def new_server_params
-    params.require(:new_server).permit(:name)
+  def server_params(server_object = :server)
+    params.require(server_object).permit(:name)
   end
 
 end

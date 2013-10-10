@@ -68,8 +68,8 @@ class ApplicationController < ActionController::Base
   def set_show_state
     set_state controller: params[:controller],
               id: params[:id],
-              sidebar_page: params[:sidebar_page],
-              body_page: params[:body_page]
+              sidebar_page: params[:sidebar_page] ? params[:sidebar_page] : '1',
+              body_page: params[:body_page] ? params[:body_page] : '1'
   end
 
   # When deleting, creating or updating we will already have everything

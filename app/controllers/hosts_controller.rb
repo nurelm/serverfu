@@ -47,35 +47,6 @@ class HostsController < ApplicationController
       end
     end
 
-    if params[:new_server]
-      server = @host.servers.build server_params
-      if server.save
-        redirect_to host_path(current_tab: 'servers'),
-          notice: (t 'success.create', thing: 'Server')
-      else
-        flash.now[:error] = t 'error.create', thing: 'Server'
-      end
-    end
-
-    if params[:new_contact]
-      contact = @host.contacts.build contact_params
-      if contact.save
-        redirect_to host_path(current_tab: 'contacts'),
-          notice: (t 'success.create', thing: 'Contact')
-      else
-        flash.now[:error] = t 'error.create', thing: 'Contact'
-      end
-    end
-
-    if params[:new_note]
-      note = @host.notes.build note_params
-      if note.save
-        redirect_to host_path(current_tab: 'notes'),
-          notice: (t 'success.create', thing: 'Note')
-      else
-        flash.now[:error] = t 'error.create', thing: 'Note'
-      end
-    end
   end
 
   def destroy

@@ -55,16 +55,17 @@
             %td= server.num_sites
             %td
               - if server.clients.length == 0
-                = link_to server_url(server),
+                = link_to server_url(server, current_tab: 'servers'),
                           confirm: t('confirm.delete', name: server.name),
                           method: :delete do
                   %span.glyphicon.glyphicon-remove
               - else
                 %span.glyphicon.glyphicon-remove.text-muted
-              = link_to server_url(server) do
+              = link_to server_url(server, current_tab: 'servers') do
                 %span.glyphicon.glyphicon-chevron-right
     = form_for :new_server, url: servers_path, class: 'form-inline' do |f|
       .input-group
+        %input(type="hidden" name="current_tab" value="servers")
         = f.text_field :name, class: 'form-control', placeholder: 'New Server'
         %span.input-group-btn
           = f.button class: 'btn btn-default' do
@@ -90,10 +91,15 @@
             %td
               = best_in_place contact, :description, type: :input
             %td
-              = link_to contact_url(contact) do
+              = link_to contact_url(contact, current_tab: 'contacts'),
+                        confirm: t('confirm.delete', name: contact.full_name),
+                        method: :delete do
+                %span.glyphicon.glyphicon-remove
+              = link_to contact_url(contact, current_tab: 'contacts') do
                 %span.glyphicon.glyphicon-chevron-right
-    = form_for :new_contact, url: host_path(@host), method: :put, class: 'form-inline' do |f|
+    = form_for :new_contact, url: contacts_path, class: 'form-inline' do |f|
       .input-group
+        %input(type="hidden" name="current_tab" value="contacts")
         = f.text_field :description, class: 'form-control', placeholder: 'New Contact Description'
         %span.input-group-btn
           = f.button class: 'btn btn-default' do
@@ -116,9 +122,14 @@
             %td
               = best_in_place note, :note, type: :textarea
             %td
-              = link_to note_url(note) do
+              = link_to note_url(note, current_tab: 'notes'),
+                        confirm: t('confirm.delete', name: "note created at #{note.created_at}"),
+                        method: :delete do
+                %span.glyphicon.glyphicon-remove
+              = link_to note_url(note, current_tab: 'notes') do
                 %span.glyphicon.glyphicon-chevron-right
-    = form_for :new_note, url: host_path(@host), method: :put, class: 'form-inline' do |f|
+    = form_for :new_note, url: notes_path, class: 'form-inline' do |f|
+      %input(type="hidden" name="current_tab" value="notes")
       = f.text_area :note, class: 'form-control', placeholder: 'New Note'
       .spacer-v10
       = f.button class: 'btn btn-default' do
