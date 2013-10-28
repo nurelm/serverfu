@@ -1,4 +1,22 @@
 class ServersController < ApplicationController
+  def index
+    server = Server.find(:all, order: 'name').first
+    if server != nil then
+      redirect_to server_url(server)
+    end
+  end
+
+  def show
+    @server = Server.find(params[:id])
+
+    @server_clients = @server.clients.order(:name).page params[:body_page]
+    @server_ips = @server.ips.order(:address).page params[:body_page]
+    @server_notes = @server.notes.order('created_at DESC').page params[:body_page]
+
+    @servers = Server.order('name').page params[:sidebar_page]
+
+    @new_server = Server.new
+  end
 
   def create
     if get_controller_from_state == 'hosts'

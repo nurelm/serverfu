@@ -1,0 +1,132 @@
+- content_for :sidebar do
+  %ul.list-group
+    - @servers.each do |server|
+      %li.list-group-item{:class => ('active' if @server.id == server.id)}
+        = best_in_place server, :name, type: :input
+        - if server.clients.length == 0
+          = link_to server_url(server, sidebar_page: params['sidebar_page']),
+                    confirm: t('confirm.delete', name: server.name),
+                    method: :delete do
+            %span.glyphicon.glyphicon-remove
+        - else
+          %span.glyphicon.glyphicon-remove.text-muted
+        = link_to server_url(server, sidebar_page: params['sidebar_page']) do
+          %span.glyphicon.glyphicon-chevron-right
+  %p
+    = form_for :new_server, url: servers_path do |f|
+      .input-group
+        = f.text_field :name, class: 'form-control', placeholder: 'New server'
+        %span.input-group-btn
+          = f.button class: 'btn btn-default' do
+            %span.glyphicon.glyphicon-plus
+  = paginate @servers, param_name: 'sidebar_page'
+
+%ul.nav.nav-tabs#tabs
+  %li{:class => ('active' if params['current_tab'] == 'clients' || params['current_tab'] == nil)}
+    %a(href="#clients" data-toggle="tab")
+      Clients 
+      %span.label.label-info= @server.clients.length
+  %li{:class => ('active' if params['current_tab'] == 'ips')}
+    %a(href="#ips" data-toggle="tab")
+      IPs
+      %span.label.label-info= @server.ips.length
+  %li{:class => ('active' if params['current_tab'] == 'notes')}
+    %a(href="#notes" data-toggle="tab")
+      Notes
+      %span.label.label-info= @server.notes.length
+
+.tab-content
+  .tab-pane#servers{:class => ('active' if params['current_tab'] == 'servers' || params['current_tab'] == nil)}
+
+    .spacer-v10
+    %table.table.table-hover
+      %thead
+        %tr
+          %th(width="30%") Name
+          %th(width="20%") Clients
+          %th Sites
+          %th(width="10%") &nbsp;
+      %tbody
+        - @server_clients.each do |client|
+          %tr
+            %td
+              = best_in_place client, :name, type: :input
+            %td= server.num_clients
+            %td= server.num_sites
+            %td
+              - if server.clients.length == 0
+                = link_to server_url(server, current_tab: 'servers'),
+                          confirm: t('confirm.delete', name: server.name),
+                          method: :delete do
+                  %span.glyphicon.glyphicon-remove
+              - else
+                %span.glyphicon.glyphicon-remove.text-muted
+              = link_to server_url(server, current_tab: 'servers') do
+                %span.glyphicon.glyphicon-chevron-right
+    = form_for :new_server, url: servers_path, class: 'form-inline' do |f|
+      .input-group
+        %input(type="hidden" name="current_tab" value="servers")
+        = f.text_field :name, class: 'form-control', placeholder: 'New Server'
+        %span.input-group-btn
+          = f.button class: 'btn btn-default' do
+            %span.glyphicon.glyphicon-plus
+    = paginate @server_clients, param_name: 'body_page'
+
+  .tab-pane#ips{:class => ('active' if params['current_tab'] == 'ips')}
+    .spacer-v10
+    %table.table.table-hover
+      %thead
+        %tr
+          %th IP
+          %th(width="10%") &nbsp;
+      %tbody
+        - @server_ips.each do |ip|
+          %tr
+            %td
+              = best_in_place ip, :address
+            %td
+              = link_to ip_url(ip, current_tab: 'ips'),
+                        confirm: t('confirm.delete', name: ip.address),
+                        method: :delete do
+                %span.glyphicon.glyphicon-remove
+              = link_to ip_url(ip, current_tab: 'ips') do
+                %span.glyphicon.glyphicon-chevron-right
+    = form_for :new_ip, url: ips_path, class: 'form-inline' do |f|
+      .input-group
+        %input(type="hidden" name="current_tab" value="ips")
+        = f.text_field :description, class: 'form-control', placeholder: 'New Contact Description'
+        %span.input-group-btn
+          = f.button class: 'btn btn-default' do
+            %span.glyphicon.glyphicon-plus
+    = paginate @server_ips, param_name: 'body_page', params: {current_tab: 'ips'}
+
+  .tab-pane#notes{:class => ('active' if params['current_tab'] == 'notes')}
+    .spacer-v10
+    %table.table.table-hover
+      %thead
+        %tr
+          %th(width="30%") Created On
+          %th Note
+          %th(width="10%") &nbsp;
+      %tbody
+        - @server_notes.each do |note|
+          %tr
+            %td
+              = note.created_at
+            %td
+              = best_in_place note, :note, type: :textarea
+            %td
+              = link_to note_url(note, current_tab: 'notes'),
+                        confirm: t('confirm.delete', name: "note created at #{note.created_at}"),
+                        method: :delete do
+                %span.glyphicon.glyphicon-remove
+              = link_to note_url(note, current_tab: 'notes') do
+                %span.glyphicon.glyphicon-chevron-right
+    = form_for :new_note, url: notes_path, class: 'form-inline' do |f|
+      %input(type="hidden" name="current_tab" value="notes")
+      = f.text_area :note, class: 'form-control', placeholder: 'New Note'
+      .spacer-v10
+      = f.button class: 'btn btn-default' do
+        Add Note
+        %span.glyphicon.glyphicon-plus
+    = paginate @server_notes, param_name: 'body_page', params: {current_tab: 'notes'}
