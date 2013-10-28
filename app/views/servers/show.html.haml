@@ -1,39 +1,39 @@
 - content_for :sidebar do
   %ul.list-group
-    - @hosts.each do |host|
-      %li.list-group-item{:class => ('active' if @host.id == host.id)}
-        = best_in_place host, :name, type: :input
-        - if host.servers.length == 0
-          = link_to host_url(host, sidebar_page: params['sidebar_page']),
-                    confirm: t('confirm.delete', name: host.name),
+    - @servers.each do |server|
+      %li.list-group-item{:class => ('active' if @server.id == server.id)}
+        = best_in_place server, :name, type: :input
+        - if server.clients.length == 0
+          = link_to server_url(server, sidebar_page: params['sidebar_page']),
+                    confirm: t('confirm.delete', name: server.name),
                     method: :delete do
             %span.glyphicon.glyphicon-remove
         - else
           %span.glyphicon.glyphicon-remove.text-muted
-        = link_to host_url(host, sidebar_page: params['sidebar_page']) do
+        = link_to server_url(server, sidebar_page: params['sidebar_page']) do
           %span.glyphicon.glyphicon-chevron-right
   %p
-    = form_for :new_host, url: hosts_path do |f|
+    = form_for :new_server, url: servers_path do |f|
       .input-group
-        = f.text_field :name, class: 'form-control', placeholder: 'New Host'
+        = f.text_field :name, class: 'form-control', placeholder: 'New server'
         %span.input-group-btn
           = f.button class: 'btn btn-default' do
             %span.glyphicon.glyphicon-plus
-  = paginate @hosts, param_name: 'sidebar_page'
+  = paginate @servers, param_name: 'sidebar_page'
 
 %ul.nav.nav-tabs#tabs
-  %li{:class => ('active' if params['current_tab'] == 'servers' || params['current_tab'] == nil)}
-    %a(href="#servers" data-toggle="tab")
-      Servers 
-      %span.label.label-info= @host.servers.length
-  %li{:class => ('active' if params['current_tab'] == 'contacts')}
-    %a(href="#contacts" data-toggle="tab")
-      Contacts
-      %span.label.label-info= @host.contacts.length
+  %li{:class => ('active' if params['current_tab'] == 'clients' || params['current_tab'] == nil)}
+    %a(href="#clients" data-toggle="tab")
+      Clients 
+      %span.label.label-info= @server.clients.length
+  %li{:class => ('active' if params['current_tab'] == 'ips')}
+    %a(href="#ips" data-toggle="tab")
+      IPs
+      %span.label.label-info= @server.ips.length
   %li{:class => ('active' if params['current_tab'] == 'notes')}
     %a(href="#notes" data-toggle="tab")
       Notes
-      %span.label.label-info= @host.notes.length
+      %span.label.label-info= @server.notes.length
 
 .tab-content
   .tab-pane#servers{:class => ('active' if params['current_tab'] == 'servers' || params['current_tab'] == nil)}
@@ -47,10 +47,10 @@
           %th Sites
           %th(width="10%") &nbsp;
       %tbody
-        - @host_servers.each do |server|
+        - @server_clients.each do |client|
           %tr
             %td
-              = best_in_place server, :name, type: :input
+              = best_in_place client, :name, type: :input
             %td= server.num_clients
             %td= server.num_sites
             %td
@@ -70,41 +70,35 @@
         %span.input-group-btn
           = f.button class: 'btn btn-default' do
             %span.glyphicon.glyphicon-plus
-    = paginate @host_servers, param_name: 'body_page'
+    = paginate @server_clients, param_name: 'body_page'
 
-  .tab-pane#contacts{:class => ('active' if params['current_tab'] == 'contacts')}
+  .tab-pane#ips{:class => ('active' if params['current_tab'] == 'ips')}
     .spacer-v10
     %table.table.table-hover
       %thead
         %tr
-          %th(width="30%") Last Name
-          %th(width="20%") First Name
-          %th Description
+          %th IP
           %th(width="10%") &nbsp;
       %tbody
-        - @host_contacts.each do |contact|
+        - @server_ips.each do |ip|
           %tr
             %td
-              = best_in_place contact, :last_name, type: :input
+              = best_in_place ip, :address
             %td
-              = best_in_place contact, :first_name, type: :input
-            %td
-              = best_in_place contact, :description, type: :input
-            %td
-              = link_to contact_url(contact, current_tab: 'contacts'),
-                        confirm: t('confirm.delete', name: contact.full_name),
+              = link_to ip_url(ip, current_tab: 'ips'),
+                        confirm: t('confirm.delete', name: ip.address),
                         method: :delete do
                 %span.glyphicon.glyphicon-remove
-              = link_to contact_url(contact, current_tab: 'contacts') do
+              = link_to ip_url(ip, current_tab: 'ips') do
                 %span.glyphicon.glyphicon-chevron-right
-    = form_for :new_contact, url: contacts_path, class: 'form-inline' do |f|
+    = form_for :new_ip, url: ips_path, class: 'form-inline' do |f|
       .input-group
-        %input(type="hidden" name="current_tab" value="contacts")
+        %input(type="hidden" name="current_tab" value="ips")
         = f.text_field :description, class: 'form-control', placeholder: 'New Contact Description'
         %span.input-group-btn
           = f.button class: 'btn btn-default' do
             %span.glyphicon.glyphicon-plus
-    = paginate @host_contacts, param_name: 'body_page', params: {current_tab: 'contacts'}
+    = paginate @server_ips, param_name: 'body_page', params: {current_tab: 'ips'}
 
   .tab-pane#notes{:class => ('active' if params['current_tab'] == 'notes')}
     .spacer-v10
@@ -115,7 +109,7 @@
           %th Note
           %th(width="10%") &nbsp;
       %tbody
-        - @host_notes.each do |note|
+        - @server_notes.each do |note|
           %tr
             %td
               = note.created_at
@@ -135,4 +129,4 @@
       = f.button class: 'btn btn-default' do
         Add Note
         %span.glyphicon.glyphicon-plus
-    = paginate @host_notes, param_name: 'body_page', params: {current_tab: 'notes'}
+    = paginate @server_notes, param_name: 'body_page', params: {current_tab: 'notes'}
