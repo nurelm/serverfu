@@ -19,9 +19,9 @@ class ClientsController < ApplicationController
   end
 
   def create
-    if get_controller_from_state == 'hosts'
-      @host = Host.find get_id_from_state
-      client = @host.clients.build client_params(:new_client)
+    if get_controller_from_state == 'servers'
+      @server = Server.find get_id_from_state
+      client = @server.clients.build client_params(:new_client)
     else
       client = Client.new client_params(:new_client)
     end
