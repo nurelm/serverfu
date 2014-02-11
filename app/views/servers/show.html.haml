@@ -43,16 +43,16 @@
       %thead
         %tr
           %th(width="30%") Name
-          %th(width="20%") Clients
-          %th Sites
+          %th(width="20%") Sites
+          %th Contacts
           %th(width="10%") &nbsp;
       %tbody
         - @server_clients.each do |client|
           %tr
             %td
               = best_in_place client, :name, type: :input
-            %td= client.num_sites
-            %td= "client.num_ ..."
+            %td= client.sites.length
+            %td= client.contacts.length
             %td
               - if client.sites.length == 0
                 = link_to client_url(client, current_tab: 'clients'),
@@ -94,7 +94,7 @@
     = form_for :new_ip, url: ips_path, class: 'form-inline' do |f|
       .input-group
         %input(type="hidden" name="current_tab" value="ips")
-        = f.text_field :description, class: 'form-control', placeholder: 'New Contact Description'
+        = f.text_field :address, class: 'form-control', placeholder: 'New IP'
         %span.input-group-btn
           = f.button class: 'btn btn-default' do
             %span.glyphicon.glyphicon-plus
