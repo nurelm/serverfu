@@ -1,0 +1,99 @@
+- content_for :sidebar do
+  %ul.list-group
+    - @clients.each do |client|
+      %li.list-group-item{:class => ('active' if @client.id == client.id)}
+        = best_in_place client, :name, type: :input
+        - if client.contacts.length == 0
+          = link_to client_url(client, sidebar_page: params['sidebar_page']),
+                    confirm: t('confirm.delete', name: client.name),
+                    method: :delete do
+            %span.glyphicon.glyphicon-remove
+        - else
+          %span.glyphicon.glyphicon-remove.text-muted
+        = link_to client_url(client, sidebar_page: params['sidebar_page']) do
+          %span.glyphicon.glyphicon-chevron-right
+
+  %p
+    = form_for :new_client, url: clients_path do |f|
+      .input-group
+        = f.text_field :name, class: 'form-control', placeholder: 'New Client'
+        %span.input-group-btn
+          = f.button class: 'btn btn-default' do
+            %span.glyphicon.glyphicon-plus
+  = paginate @clients, param_name: 'sidebar_page'
+
+%ul.nav.nav-tabs#tabs
+  %li{:class => ('active' if params['current_tab'] == 'contacts')}
+    %a(href="#contacts" data-toggle="tab")
+      Contacts
+      %span.label.label-info= @client.contacts.length
+  %li{:class => ('active' if params['current_tab'] == 'notes')}
+    %a(href="#notes" data-toggle="tab")
+      Notes
+      %span.label.label-info= @client.notes.length
+
+.tab-content
+  .tab-pane#contacts{:class => ('active' if params['current_tab'] == 'contacts')}
+    .spacer-v10
+    %table.table.table-hover
+      %thead
+        %tr
+          %th(width="30%") Last Name
+          %th(width="20%") First Name
+          %th Description
+          %th(width="10%") &nbsp;
+      %tbody
+        - @client_contacts.each do |contact|
+          %tr
+            %td
+              = best_in_place contact, :last_name, type: :input, nil: '-'
+            %td
+              = best_in_place contact, :first_name, type: :input, nil: '-'
+            %td
+              = best_in_place contact, :description, type: :input, nil: '-'
+            %td
+              = link_to contact_url(contact, current_tab: 'contacts'),
+                        confirm: t('confirm.delete', name: contact.full_name),
+                        method: :delete do
+                %span.glyphicon.glyphicon-remove
+              = link_to contact_url(contact, current_tab: 'contacts') do
+                %span.glyphicon.glyphicon-chevron-right
+    = form_for :new_contact, url: contacts_path, class: 'form-inline' do |f|
+      .input-group
+        %input(type="hidden" name="current_tab" value="contacts")
+        = f.text_field :description, class: 'form-control', placeholder: 'New Contact Description'
+        %span.input-group-btn
+          = f.button class: 'btn btn-default' do
+            %span.glyphicon.glyphicon-plus
+    = paginate @client_contacts, param_name: 'body_page', params: {current_tab: 'contacts'}
+
+  .tab-pane#notes{:class => ('active' if params['current_tab'] == 'notes')}
+    .spacer-v10
+    %table.table.table-hover
+      %thead
+        %tr
+          %th(width="30%") Created On
+          %th Note
+          %th(width="10%") &nbsp;
+      %tbody
+        - @client_notes.each do |note|
+          %tr
+            %td
+              = note.created_at
+            %td
+              = best_in_place note, :note, type: :textarea
+            %td
+              = link_to note_url(note, current_tab: 'notes'),
+                        confirm: t('confirm.delete', name: "note created at #{note.created_at}"),
+                        method: :delete do
+                %span.glyphicon.glyphicon-remove
+              = link_to note_url(note, current_tab: 'notes') do
+                %span.glyphicon.glyphicon-chevron-right
+    = form_for :new_note, url: notes_path, class: 'form-inline' do |f|
+      %input(type="hidden" name="current_tab" value="notes")
+      = f.text_area :note, class: 'form-control', placeholder: 'New Note'
+      .spacer-v10
+      = f.button class: 'btn btn-default' do
+        Add Note
+        %span.glyphicon.glyphicon-plus
+    = paginate @client_notes, param_name: 'body_page', params: {current_tab: 'notes'}
