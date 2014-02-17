@@ -4,6 +4,9 @@ class NotesController < ApplicationController
     if get_controller_from_state == 'hosts'
       @host = Host.find get_id_from_state
       note = @host.notes.build note_params(:new_note)
+    elsif get_controller_from_state == 'servers'
+      @server = Server.find get_id_from_state
+      note = @server.notes.build note_params(:new_note)
     else
       note = Note.new note_params(:new_note)
     end
@@ -20,7 +23,8 @@ class NotesController < ApplicationController
    
     respond_to do |format|
       if @note.update_attributes(note_params)
-        format.html { redirect_to(@note, :notice => 'Note was successfully updated.') }
+        format.html { redirect_to @note,
+          notice: (t 'success.update', thing: 'Note') }
         format.json { respond_with_bip(@note) }
       else
         format.html { render :action => "edit" }
@@ -31,12 +35,12 @@ class NotesController < ApplicationController
 
   def destroy
     @note = Note.find(params[:id])
-    @note.destroy
-
-    respond_to do |format|
-      format.html {
-        redirect_to_state notice: (t 'success.delete', thing: 'Note') }
-      format.json { head :no_content }
+    if @note.destroy
+      respond_to do |format|
+         format.html {
+           redirect_to_state notice: (t 'success.delete', thing: 'Note') }
+         format.json { head :no_content }
+       end
     end
   end
 

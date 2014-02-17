@@ -36,37 +36,37 @@
       %span.label.label-info= @server.notes.length
 
 .tab-content
-  .tab-pane#servers{:class => ('active' if params['current_tab'] == 'servers' || params['current_tab'] == nil)}
+  .tab-pane#clients{:class => ('active' if params['current_tab'] == 'clients' || params['current_tab'] == nil)}
 
     .spacer-v10
     %table.table.table-hover
       %thead
         %tr
           %th(width="30%") Name
-          %th(width="20%") Clients
-          %th Sites
+          %th(width="20%") Sites
+          %th Contacts
           %th(width="10%") &nbsp;
       %tbody
         - @server_clients.each do |client|
           %tr
             %td
               = best_in_place client, :name, type: :input
-            %td= server.num_clients
-            %td= server.num_sites
+            %td= client.sites.length
+            %td= client.contacts.length
             %td
-              - if server.clients.length == 0
-                = link_to server_url(server, current_tab: 'servers'),
-                          confirm: t('confirm.delete', name: server.name),
+              - if client.sites.length == 0
+                = link_to client_url(client, current_tab: 'clients'),
+                          confirm: t('confirm.delete', name: client.name),
                           method: :delete do
                   %span.glyphicon.glyphicon-remove
               - else
                 %span.glyphicon.glyphicon-remove.text-muted
-              = link_to server_url(server, current_tab: 'servers') do
+              = link_to client_url(client, current_tab: 'client') do
                 %span.glyphicon.glyphicon-chevron-right
-    = form_for :new_server, url: servers_path, class: 'form-inline' do |f|
+    = form_for :new_client, url: clients_path, class: 'form-inline' do |f|
       .input-group
-        %input(type="hidden" name="current_tab" value="servers")
-        = f.text_field :name, class: 'form-control', placeholder: 'New Server'
+        %input(type="hidden" name="current_tab" value="clients")
+        = f.text_field :name, class: 'form-control', placeholder: 'New Client'
         %span.input-group-btn
           = f.button class: 'btn btn-default' do
             %span.glyphicon.glyphicon-plus
@@ -94,7 +94,7 @@
     = form_for :new_ip, url: ips_path, class: 'form-inline' do |f|
       .input-group
         %input(type="hidden" name="current_tab" value="ips")
-        = f.text_field :description, class: 'form-control', placeholder: 'New Contact Description'
+        = f.text_field :address, class: 'form-control', placeholder: 'New IP'
         %span.input-group-btn
           = f.button class: 'btn btn-default' do
             %span.glyphicon.glyphicon-plus
