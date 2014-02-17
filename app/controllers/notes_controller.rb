@@ -20,7 +20,8 @@ class NotesController < ApplicationController
    
     respond_to do |format|
       if @note.update_attributes(note_params)
-        format.html { redirect_to(@note, :notice => 'Note was successfully updated.') }
+        format.html { redirect_to @note,
+          notice: (t 'success.update', thing: 'Note') }
         format.json { respond_with_bip(@note) }
       else
         format.html { render :action => "edit" }
@@ -31,12 +32,12 @@ class NotesController < ApplicationController
 
   def destroy
     @note = Note.find(params[:id])
-    @note.destroy
-
-    respond_to do |format|
-      format.html {
-        redirect_to_state notice: (t 'success.delete', thing: 'Note') }
-      format.json { head :no_content }
+    if @note.destroy
+      respond_to do |format|
+         format.html {
+           redirect_to_state notice: (t 'success.delete', thing: 'Note') }
+         format.json { head :no_content }
+       end
     end
   end
 

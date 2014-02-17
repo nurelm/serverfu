@@ -12,6 +12,7 @@
           %span.glyphicon.glyphicon-remove.text-muted
         = link_to host_url(host, sidebar_page: params['sidebar_page']) do
           %span.glyphicon.glyphicon-chevron-right
+
   %p
     = form_for :new_host, url: hosts_path do |f|
       .input-group
@@ -61,7 +62,7 @@
                   %span.glyphicon.glyphicon-remove
               - else
                 %span.glyphicon.glyphicon-remove.text-muted
-              = link_to server_url(server, current_tab: 'servers') do
+              = link_to server_url(server, current_tab: 'clients') do
                 %span.glyphicon.glyphicon-chevron-right
     = form_for :new_server, url: servers_path, class: 'form-inline' do |f|
       .input-group
@@ -85,11 +86,11 @@
         - @host_contacts.each do |contact|
           %tr
             %td
-              = best_in_place contact, :last_name, type: :input
+              = best_in_place contact, :last_name, type: :input, nil: '-'
             %td
-              = best_in_place contact, :first_name, type: :input
+              = best_in_place contact, :first_name, type: :input, nil: '-'
             %td
-              = best_in_place contact, :description, type: :input
+              = best_in_place contact, :description, type: :input, nil: '-'
             %td
               = link_to contact_url(contact, current_tab: 'contacts'),
                         confirm: t('confirm.delete', name: contact.full_name),

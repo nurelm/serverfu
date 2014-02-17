@@ -20,7 +20,8 @@ class ContactsController < ApplicationController
    
     respond_to do |format|
       if @contact.update_attributes(contact_params)
-        format.html { redirect_to(@contact, :notice => 'Contact was successfully updated.') }
+        format.html { redirect_to @contact,
+          notice: (t 'success.update', thing: 'Contact') }
         format.json { respond_with_bip(@contact) }
       else
         format.html { render :action => "edit" }
@@ -31,15 +32,14 @@ class ContactsController < ApplicationController
 
   def destroy
     @contact = Contact.find(params[:id])
-    @contact.destroy
-
-    respond_to do |format|
-      format.html {
-        redirect_to_state notice: (t 'success.delete', thing: 'Contact') }
-      format.json { head :no_content }
+    if @contact.destroy
+      respond_to do |format|
+         format.html {
+           redirect_to_state notice: (t 'success.delete', thing: 'Contact') }
+         format.json { head :no_content }
+      end
     end
   end
-
 
   private
 
