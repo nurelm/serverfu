@@ -23,7 +23,7 @@
   = paginate @clients, param_name: 'sidebar_page'
 
 %ul.nav.nav-tabs#tabs
-  %li{:class => ('active' if params['current_tab'] == 'contacts')}
+  %li{:class => ('active' if params['current_tab'] == 'contacts' || params['current_tab'] == nil)}
     %a(href="#contacts" data-toggle="tab")
       Contacts
       %span.label.label-info= @client.contacts.length
@@ -33,7 +33,7 @@
       %span.label.label-info= @client.notes.length
 
 .tab-content
-  .tab-pane#contacts{:class => ('active' if params['current_tab'] == 'contacts')}
+  .tab-pane#contacts{:class => ('active' if params['current_tab'] == 'contacts' || params['current_tab'] == nil)}
     .spacer-v10
     %table.table.table-hover
       %thead
