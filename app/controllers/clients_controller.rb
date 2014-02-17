@@ -9,6 +9,7 @@ class ClientsController < ApplicationController
   def show
     @client = Client.find(params[:id])
 
+    @client_sites = @client.sites.order(:description).page params[:body_page]
     @client_contacts = @client.contacts.order(:last_name).page params[:body_page]
     @client_notes = @client.notes.order('created_at DESC').page params[:body_page]
 

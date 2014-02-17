@@ -23,7 +23,11 @@
   = paginate @clients, param_name: 'sidebar_page'
 
 %ul.nav.nav-tabs#tabs
-  %li{:class => ('active' if params['current_tab'] == 'contacts' || params['current_tab'] == nil)}
+  %li{:class => ('active' if params['current_tab'] == 'sites' || params['current_tab'] == nil)}
+    %a(href="#contacts" data-toggle="tab")
+      Sites
+      %span.label.label-info= @client.contacts.length
+  %li{:class => ('active' if params['current_tab'] == 'contacts')}
     %a(href="#contacts" data-toggle="tab")
       Contacts
       %span.label.label-info= @client.contacts.length
@@ -33,7 +37,41 @@
       %span.label.label-info= @client.notes.length
 
 .tab-content
-  .tab-pane#contacts{:class => ('active' if params['current_tab'] == 'contacts' || params['current_tab'] == nil)}
+  .tab-pane#sites{:class => ('active' if params['current_tab'] == 'sites' || params['current_tab'] == nil)}
+    .spacer-v10
+    %table.table.table-hover
+      %thead
+        %tr
+          %th(width="30%") Description
+          %th(width="20%") IP
+          %th Domain Names
+          %th(width="10%") &nbsp;
+      %tbody
+        - @client_sites.each do |site|
+          %tr
+            %td
+              = best_in_place contact, :description, type: :input, nil: '-'
+            %td
+              IP Here
+            %td
+              Domain names here
+            %td
+              = link_to site_url(site, current_tab: 'sites'),
+                        confirm: t('confirm.delete', name: site.description),
+                        method: :delete do
+                %span.glyphicon.glyphicon-remove
+              = link_to contact_url(site, current_tab: 'sites') do
+                %span.glyphicon.glyphicon-chevron-right
+    = form_for :new_site, url: sites_path, class: 'form-inline' do |f|
+      .input-group
+        %input(type="hidden" name="current_tab" value="sites")
+        = f.text_field :description, class: 'form-control', placeholder: 'New Site Description'
+        %span.input-group-btn
+          = f.button class: 'btn btn-default' do
+            %span.glyphicon.glyphicon-plus
+    = paginate @client_sites, param_name: 'body_page', params: {current_tab: 'sites'}
+
+  .tab-pane#contacts{:class => ('active' if params['current_tab'] == 'contacts')}
     .spacer-v10
     %table.table.table-hover
       %thead
