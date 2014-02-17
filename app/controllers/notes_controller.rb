@@ -4,6 +4,9 @@ class NotesController < ApplicationController
     if get_controller_from_state == 'hosts'
       @host = Host.find get_id_from_state
       note = @host.notes.build note_params(:new_note)
+    elsif get_controller_from_state == 'servers'
+      @server = Server.find get_id_from_state
+      note = @server.notes.build note_params(:new_note)
     else
       note = Note.new note_params(:new_note)
     end

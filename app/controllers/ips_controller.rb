@@ -34,7 +34,8 @@ class IpsController < ApplicationController
    
     respond_to do |format|
       if @ip.update_attributes(ip_params)
-        format.html { redirect_to(@ip, :notice => 'Ip was successfully updated.') }
+        format.html { redirect_to @ip,
+          notice: (t 'success.update', thing: 'IP') }
         format.json { respond_with_bip(@ip) }
       else
         format.html { render :action => "edit" }
@@ -45,12 +46,12 @@ class IpsController < ApplicationController
 
   def destroy
     @ip = Ip.find(params[:id])
-    @ip.destroy
-
-    respond_to do |format|
-      format.html {
-        redirect_to_state notice: (t 'success.delete', thing: 'Ip') }
-      format.json { head :no_content }
+    if @ip.destroy
+      respond_to do |format|
+         format.html {
+           redirect_to_state notice: (t 'success.delete', thing: 'Ip') }
+         format.json { head :no_content }
+       end
     end
   end
 

@@ -38,7 +38,8 @@ class ClientsController < ApplicationController
    
     respond_to do |format|
       if @client.update_attributes(client_params)
-        format.html { redirect_to(@client, :notice => 'Client was successfully updated.') }
+        format.html { redirect_to @client,
+          notice: (t 'success.update', thing: 'Client') }
         format.json { respond_with_bip(@client) }
       else
         format.html { render :action => "edit" }
@@ -49,12 +50,12 @@ class ClientsController < ApplicationController
 
   def destroy
     @client = Client.find(params[:id])
-    @client.destroy
-
-    respond_to do |format|
-      format.html {
-        redirect_to_state notice: (t 'success.delete', thing: 'Client') }
-      format.json { head :no_content }
+    if @client.destroy
+      respond_to do |format|
+         format.html {
+           redirect_to_state notice: (t 'success.delete', thing: 'Client') }
+         format.json { head :no_content }
+       end
     end
   end
 
