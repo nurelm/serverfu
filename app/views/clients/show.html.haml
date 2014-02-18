@@ -52,7 +52,8 @@
             %td
               = best_in_place site, :description, type: :input, nil: '-'
             %td
-              IP Here
+              = best_in_place site, :ip_id, type: :select, nil: 'Select IP',    | 
+                              collection: @client_ip_collection
             %td
               Domain names here
             %td

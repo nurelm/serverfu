@@ -62,6 +62,6 @@ class SitesController < ApplicationController
   private
 
   def site_params(site_object = :site)
-    params.require(site_object).permit(:description)
+    params.require(site_object).permit(:description, :ip_id)
   end
 end
