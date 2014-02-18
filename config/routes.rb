@@ -1,4 +1,5 @@
 Serverfu4::Application.routes.draw do
+  devise_for :users
   get "overview/index"
   root to: "overview#index"
 
