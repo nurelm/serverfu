@@ -43,7 +43,7 @@ gem 'debugger', group: [:development, :test]
 
 # Project specific
 gem 'sass-rails', '~> 4.0.0'
-gem 'bootstrap-sass', :github => 'thomas-mcdonald/bootstrap-sass', branch: '3'
+gem 'bootstrap-sass', '~> 3.1.1.0'
 gem 'haml'
 gem 'best_in_place', :github => 'bernat/best_in_place', branch: 'rails-4'
 gem 'kaminari'
