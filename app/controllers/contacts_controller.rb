@@ -4,6 +4,9 @@ class ContactsController < ApplicationController
     if get_controller_from_state == 'hosts'
       @host = Host.find get_id_from_state
       contact = @host.contacts.build contact_params(:new_contact)
+    elsif get_controller_from_state == 'clients'
+      @client = Client.find get_id_from_state
+      contact = @client.contacts.build contact_params(:new_contact)
     else
       contact = Contact.new contact_params(:new_contact)
     end
