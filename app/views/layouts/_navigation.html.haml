@@ -15,6 +15,10 @@
         = nav_link "Clients", clients_path
         = nav_link "Sites", sites_path
         = nav_link "Domains", domains_path
+        - if user_signed_in?
+          = nav_link "Sign out", destroy_user_session_path, :method => :delete
+        - else
+          = nav_link "Sign in with Google", user_omniauth_authorize_path(:google_oauth2)
   .col-md-3
     .spacer-v10
     .input-group

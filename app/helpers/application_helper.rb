@@ -1,6 +1,6 @@
 module ApplicationHelper
 
-  def nav_link(link_text, link_path)
+  def nav_link(link_text, link_path, options={})
     if link_path == "/" then
       class_value = current_page?(link_path) ? 'active' : ''
     else
@@ -8,7 +8,7 @@ module ApplicationHelper
     end
 
     content_tag(:li, :class => class_value) do
-      link_to link_text, link_path
+      link_to link_text, link_path, options
     end
   end
 
