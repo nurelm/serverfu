@@ -9,12 +9,16 @@ The application is in early development, and at this point only the
 
 ## Getting Started
 
-1. Navigate to a place where you want to run this application, then
+1. In case you don't have rails installed, install it:
+
+        gem install rails
+
+2. Navigate to a place where you want to run this application, then
 grab ServerFu:
 
         git clone git@github.com:nurelm/serverfu.git
 
-2. Change directory to `serverfu`, create the databse, then start the
+3. Change directory to `serverfu`, create the databse, then start the
 web server:
 
         cd serverfu
