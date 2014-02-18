@@ -9,7 +9,7 @@ The application is in early development, and at this point only the
 
 ## Getting Started
 
-1. Install Rails at the command prompt if you haven't yet:
+1. In case you don't have rails installed, install it:
 
         gem install rails
 
@@ -21,7 +21,8 @@ grab ServerFu:
 3. Change directory to `serverfu`, create the databse, then start the
 web server:
 
-        cd myapp
+        cd serverfu
+        bundle install
         rake db:migrate
         rails server
 
