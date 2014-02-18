@@ -1,6 +1,8 @@
 class Server < ActiveRecord::Base
   has_many :notes, :as => :noteable
+  has_many :contacts, :as => :contactable
   has_many :clients
+  has_many :ips
   belongs_to :host
 
   def num_clients

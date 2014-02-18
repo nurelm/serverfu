@@ -15,10 +15,10 @@
 
     .container
       .row
-        .col-md-2
+        .col-md-3
           .spacer-v10
           = yield :sidebar
-        .col-md-10
+        .col-md-9
           .spacer-v10
           = render 'layouts/messages'
           = yield
@@ -26,3 +26,6 @@
       .container
         %p.text-muted.text-right
           %small ServerFu Version: #{APP_VERSION::STRING}
+          - if Rails.env.development?
+            = debug params
+            %small= session[:view_state]

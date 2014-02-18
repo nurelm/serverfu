@@ -9,11 +9,11 @@ class HostsController < ApplicationController
   def show
     @host = Host.find(params[:id])
 
-    @host_servers = @host.servers.order(:name).page params[:servers_page]
-    @host_contacts = @host.contacts.order(:last_name).page params[:contacts_page]
-    @host_notes = @host.notes.order('created_at DESC').page params[:notes_page]
+    @host_servers = @host.servers.order(:name).page params[:body_page]
+    @host_contacts = @host.contacts.order(:last_name).page params[:body_page]
+    @host_notes = @host.notes.order('created_at DESC').page params[:body_page]
 
-    @hosts = Host.order('name').page params[:hosts_page]
+    @hosts = Host.order('name').page params[:sidebar_page]
 
     @new_host = Host.new
     @new_server = Server.new
@@ -22,52 +22,52 @@ class HostsController < ApplicationController
   end
 
   def create
-    @host = Host.new host_params
+    @host = Host.new new_host_params
     if @host.save
       redirect_to @host,
-                  notice: (t 'success.create', thing: 'Host')
+        notice: (t 'success.create', thing: 'Host')
     else
       render action: "create"
     end
-   end
+  end
 
   def update
     @host = Host.find(params[:id])
 
-    if params[:new_server]
-      server = @host.servers.build server_params
-      if server.save
-        redirect_to host_path(current_tab: 'servers'),
-                    notice: (t 'success.create', thing: 'Server')
-      else
-        flash.now[:error] = t 'error.create', thing: 'Server'
+    if params[:host]
+      respond_to do |format|
+        if @host.update_attributes(host_params)
+          format.html { redirect_to @host,
+            notice: (t 'success.update', thing: 'Host') }
+          format.json { respond_with_bip(@host) }
+        else
+          format.html { render :action => "edit" }
+          format.json { respond_with_bip(@host) }
+        end
       end
     end
 
-    if params[:new_contact]
-      contact = @host.contacts.build contact_params
-      if contact.save
-        redirect_to host_path(current_tab: 'contacts'),
-                    notice: (t 'success.create', thing: 'Contact')
-      else
-        flash.now[:error] = t 'error.create', thing: 'Contact'
-      end
-    end
+  end
 
-    if params[:new_note]
-      note = @host.notes.build note_params
-      if note.save
-        redirect_to host_path(current_tab: 'notes'),
-                    notice: (t 'success.create', thing: 'Note')
-      else
-        flash.now[:error] = t 'error.create', thing: 'Note'
-      end
+  def destroy
+    @host = Host.find(params[:id])
+
+    if @host.destroy
+      redirect_to hosts_path,
+        notice: (t 'success.delete', thing: @host.name)
+    else
+      flash.now[:error] = t 'error.create', thing: 'Note'
     end
   end
+
 
   private
 
   def host_params
+    params.require(:host).permit(:name)
+  end
+
+  def new_host_params
     params.require(:new_host).permit(:name)
   end
 
