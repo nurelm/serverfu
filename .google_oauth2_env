@@ -1,0 +1,12 @@
+#Get some of these by:
+# Creating a new client id of the "web server variety"
+# Click - `Create New Client Id` on your project
+# Use - `Web application type` 
+# Use - `http://localhost:3000/users/auth/google_oauth2/callback` as your callback given the host is right
+# you will have to expand more options
+
+export GOOGLE_CLIENT_ID=
+export GOOGLE_CLIENT_SECRET=
+
+
+# Be sure you don't commit your keys back to the server
