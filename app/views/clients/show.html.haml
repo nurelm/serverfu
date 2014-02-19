@@ -55,7 +55,6 @@
               = best_in_place site, :ip_id, type: :select, nil: 'Select IP',    | 
                               collection: @client.ip_collection
             %td
-              Domains:
               - site.domains.each do |domain|
                 = domain.name
             %td
