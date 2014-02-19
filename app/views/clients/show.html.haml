@@ -55,7 +55,9 @@
               = best_in_place site, :ip_id, type: :select, nil: 'Select IP',    | 
                               collection: @client_ip_collection
             %td
-              Domain names here
+              Domains:
+              - site.domains.each do |domain|
+                = domain.name
             %td
               = link_to site_url(site, current_tab: 'sites'),
                         confirm: t('confirm.delete', name: site.description),

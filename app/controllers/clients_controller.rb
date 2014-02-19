@@ -18,7 +18,6 @@ class ClientsController < ApplicationController
     client_ips.each do |ip|
       @client_ip_collection << [ip.id, ip.address]
     end
-    
 
     @clients = Client.order('name').page params[:sidebar_page]
 
