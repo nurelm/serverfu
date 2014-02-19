@@ -53,7 +53,7 @@
               = best_in_place site, :description, type: :input, nil: '-'
             %td
               = best_in_place site, :ip_id, type: :select, nil: 'Select IP',    | 
-                              collection: @client_ip_collection
+                              collection: @client.ip_collection
             %td
               Domains:
               - site.domains.each do |domain|
