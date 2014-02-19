@@ -13,13 +13,6 @@ class ClientsController < ApplicationController
     @client_contacts = @client.contacts.order(:last_name).page params[:body_page]
     @client_notes = @client.notes.order('created_at DESC').page params[:body_page]
 
-    client_ips = @client.server.ips.order(':address')
-    @client_ip_collection = []
-    client_ips.each do |ip|
-      @client_ip_collection << [ip.id, ip.address]
-    end
-    
-
     @clients = Client.order('name').page params[:sidebar_page]
 
     @new_client = Client.new
