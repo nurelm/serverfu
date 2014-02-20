@@ -1,5 +1,6 @@
 class ClientsController < ApplicationController
   def index
+    logger.debug "HAI INDEx"
     client = Client.find(:all, order: 'name').first
     if client != nil then
       redirect_to client_url(client)
@@ -7,15 +8,17 @@ class ClientsController < ApplicationController
   end
 
   def show
-    @client = Client.find(params[:id])
-
-    @client_sites = @client.sites.order(:description).page params[:body_page]
-    @client_contacts = @client.contacts.order(:last_name).page params[:body_page]
-    @client_notes = @client.notes.order('created_at DESC').page params[:body_page]
-
-    @clients = Client.order('name').page params[:sidebar_page]
-
-    @new_client = Client.new
+    begin
+      @client = Client.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      redirect_to clients_path
+    else
+      @client_sites = @client.sites.order(:description).page params[:body_page]
+      @client_contacts = @client.contacts.order(:last_name).page params[:body_page]
+      @client_notes = @client.notes.order('created_at DESC').page params[:body_page]
+      @clients = Client.order('name').page params[:sidebar_page]
+      @new_client = Client.new
+    end
   end
 
   def create
