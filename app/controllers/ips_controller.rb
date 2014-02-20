@@ -7,11 +7,14 @@ class IpsController < ApplicationController
   end
 
   def show
-    @ip = Ip.find(params[:id])
-
-    @ips = Ip.order('address').page params[:sidebar_page]
-
-    @new_ip = Ip.new
+    begin
+      @ip = Ip.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      redirect_to ips_path
+    else
+      @ips = Ip.order('address').page params[:sidebar_page]
+      @new_ip = Ip.new
+    end
   end
 
   def create

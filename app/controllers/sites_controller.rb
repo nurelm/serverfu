@@ -7,21 +7,26 @@ class SitesController < ApplicationController
   end
 
   def show
-    @site = Site.find(params[:id])
-
-    @site_domains = @site.domains.order(:name).page params[:body_page]
-    @site_notes = @site.notes.order('created_at DESC').page params[:body_page]
-    @site_credentials = @site.credentials.order(:description).page params[:body_page]
-
-    @sites = Site.order('description').page params[:sidebar_page]
-
-    @new_site = Site.new
+    begin
+      @site = Site.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      redirect_to sites_path
+    else
+      @site_domains = @site.domains.order(:name).page params[:body_page]
+      @site_notes = @site.notes.order('created_at DESC').page params[:body_page]
+      @site_credentials = @site.credentials.order(:description).page params[:body_page]
+  
+      @sites = Site.order('description').page params[:sidebar_page]
+  
+      @new_site = Site.new
+    end
   end
 
   def create
     if get_controller_from_state == 'clients'
       @client = Client.find get_id_from_state
       site = @client.sites.build site_params(:new_site)
+      logger.debug "HAAERRR"
     else
       site = Site.new site_params(:new_site)
     end

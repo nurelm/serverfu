@@ -7,15 +7,18 @@ class ClientsController < ApplicationController
   end
 
   def show
-    @client = Client.find(params[:id])
+    begin
+      @client = Client.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      redirect_to clients_path
+    else
+      @client_sites = @client.sites.order(:description).page params[:body_page]
+      @client_contacts = @client.contacts.order(:last_name).page params[:body_page]
+      @client_notes = @client.notes.order('created_at DESC').page params[:body_page]
+      @clients = Client.order('name').page params[:sidebar_page]
 
-    @client_sites = @client.sites.order(:description).page params[:body_page]
-    @client_contacts = @client.contacts.order(:last_name).page params[:body_page]
-    @client_notes = @client.notes.order('created_at DESC').page params[:body_page]
-
-    @clients = Client.order('name').page params[:sidebar_page]
-
-    @new_client = Client.new
+      @new_client = Client.new
+    end
   end
 
   def create
@@ -24,6 +27,10 @@ class ClientsController < ApplicationController
       client = @server.clients.build client_params(:new_client)
     else
       client = Client.new client_params(:new_client)
+      if client.server == nil
+        default_server = Server.find(:all, order: 'name').first
+        client.server = default_server
+      end
     end
 
     if client.save
