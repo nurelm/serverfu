@@ -26,7 +26,7 @@
   %li{:class => ('active' if params['current_tab'] == 'sites' || params['current_tab'] == nil)}
     %a(href="#contacts" data-toggle="tab")
       Sites
-      %span.label.label-info= @client.contacts.length
+      %span.label.label-info= @client.sites.length
   %li{:class => ('active' if params['current_tab'] == 'contacts')}
     %a(href="#contacts" data-toggle="tab")
       Contacts

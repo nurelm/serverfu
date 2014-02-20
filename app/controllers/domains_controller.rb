@@ -8,15 +8,19 @@ class DomainsController < ApplicationController
   end
 
   def show
-    @domain = Domain.find(params[:id])
-
-    @domain_clients = @domain.clients.order(:name).page params[:body_page]
-    @domain_ips = @domain.ips.order(:address).page params[:body_page]
-    @domain_notes = @domain.notes.order('created_at DESC').page params[:body_page]
-
-    @domains = Domain.order('name').page params[:sidebar_page]
-
-    @new_domain = Domain.new
+    begin
+      @domain = Domain.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      redirect_to domains_path
+    else
+      @domain_clients = @domain.clients.order(:name).page params[:body_page]
+      @domain_ips = @domain.ips.order(:address).page params[:body_page]
+      @domain_notes = @domain.notes.order('created_at DESC').page params[:body_page]
+  
+      @domains = Domain.order('name').page params[:sidebar_page]
+  
+      @new_domain = Domain.new
+    end
   end
 
   def create

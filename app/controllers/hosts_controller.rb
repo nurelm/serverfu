@@ -7,18 +7,22 @@ class HostsController < ApplicationController
   end
 
   def show
-    @host = Host.find(params[:id])
-
-    @host_servers = @host.servers.order(:name).page params[:body_page]
-    @host_contacts = @host.contacts.order(:last_name).page params[:body_page]
-    @host_notes = @host.notes.order('created_at DESC').page params[:body_page]
-
-    @hosts = Host.order('name').page params[:sidebar_page]
-
-    @new_host = Host.new
-    @new_server = Server.new
-    @new_contact = Contact.new
-    @new_note = Note.new
+    begin
+      @host = Host.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      redirect_to hosts_path
+    else
+      @host_servers = @host.servers.order(:name).page params[:body_page]
+      @host_contacts = @host.contacts.order(:last_name).page params[:body_page]
+      @host_notes = @host.notes.order('created_at DESC').page params[:body_page]
+  
+      @hosts = Host.order('name').page params[:sidebar_page]
+  
+      @new_host = Host.new
+      @new_server = Server.new
+      @new_contact = Contact.new
+      @new_note = Note.new
+    end
   end
 
   def create
