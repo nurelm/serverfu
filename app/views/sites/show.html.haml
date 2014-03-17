@@ -1,0 +1,128 @@
+- content_for :sidebar do
+  %ul.list-group
+    - @sites.each do |site|
+      %li.list-group-item{:class => ('active' if @site.id == site.id)}
+        = best_in_place site, :description, type: :input
+        - if site.domains.length == 0
+          = link_to site_url(site, sidebar_page: params['sidebar_page']),
+                    confirm: t('confirm.delete', name: site.description),
+                    method: :delete do
+            %span.glyphicon.glyphicon-remove
+        - else
+          %span.glyphicon.glyphicon-remove.text-muted
+        = link_to site_url(site, sidebar_page: params['sidebar_page']) do
+          %span.glyphicon.glyphicon-chevron-right
+
+  %p
+    = form_for :new_site, url: sites_path do |f|
+      .input-group
+        = f.text_field :description, class: 'form-control', placeholder: 'New Site'
+        %span.input-group-btn
+          = f.button class: 'btn btn-default' do
+            %span.glyphicon.glyphicon-plus
+  = paginate @sites, param_name: 'sidebar_page'
+
+%ul.nav.nav-tabs#tabs
+  %li{:class => ('active' if params['current_tab'] == 'domains' || params['current_tab'] == nil)}
+    %a(href="#domains" data-toggle="tab")
+      Domains
+      %span.label.label-info= @site.domains.length
+  %li{:class => ('active' if params['current_tab'] == 'credentials')}
+    %a(href="#credentials" data-toggle="tab")
+      Credentials
+      %span.label.label-info= @site.credentials.length
+  %li{:class => ('active' if params['current_tab'] == 'notes')}
+    %a(href="#notes" data-toggle="tab")
+      Notes
+      %span.label.label-info= @site.notes.length
+
+.tab-content
+  .tab-pane#domains{:class => ('active' if params['current_tab'] == 'domains' || params['current_tab'] == nil)}
+    .spacer-v10
+    %table.table.table-hover
+      %thead
+        %tr
+          %th Name
+          %th(width="10%") &nbsp;
+      %tbody
+        - @site_domains.each do |domain|
+          %tr
+            %td
+              = best_in_place domain, :name, type: :input, nil: '-'
+            %td
+              = link_to site_url(site, current_tab: 'domains'),
+                        confirm: t('confirm.delete', name: domain.name),
+                        method: :delete do
+                %span.glyphicon.glyphicon-remove
+              = link_to domain_url(site, current_tab: 'sites') do
+                %span.glyphicon.glyphicon-chevron-right
+    = form_for :new_domain, url: domains_path, class: 'form-inline' do |f|
+      .input-group
+        %input(type="hidden" name="current_tab" value="domains")
+        = f.text_field :name, class: 'form-control', placeholder: 'New Domain Name'
+        %span.input-group-btn
+          = f.button class: 'btn btn-default' do
+            %span.glyphicon.glyphicon-plus
+    = paginate @site_domains, param_name: 'body_page', params: {current_tab: 'domains'}
+
+  .tab-pane#credentials{:class => ('active' if params['current_tab'] == 'credentials')}
+    .spacer-v10
+    %table.table.table-hover
+      %thead
+        %tr
+          %th Type
+          %th Description
+          %th(width="10%") &nbsp;
+      %tbody
+        - @site_credentials.each do |credentials|
+          %tr
+            %td
+              Type coming soon ...
+            %td
+              = best_in_place credential, :description, type: :input, nil: '-'
+            %td
+              = link_to credential_url(credential, current_tab: 'credentials'),
+                        confirm: t('confirm.delete', name: credential.description),
+                        method: :delete do
+                %span.glyphicon.glyphicon-remove
+              = link_to credential_url(credential, current_tab: 'credentials') do
+                %span.glyphicon.glyphicon-chevron-right
+    = form_for :new_credential, url: contacts_path, class: 'form-inline' do |f|
+      .input-group
+        %input(type="hidden" name="current_tab" value="credentials")
+        = f.text_field :description, class: 'form-control', placeholder: 'New Credential Description'
+        %span.input-group-btn
+          = f.button class: 'btn btn-default' do
+            %span.glyphicon.glyphicon-plus
+    = paginate @site_credentials, param_name: 'body_page', params: {current_tab: 'credentials'}
+
+  .tab-pane#notes{:class => ('active' if params['current_tab'] == 'notes')}
+    .spacer-v10
+    %table.table.table-hover
+      %thead
+        %tr
+          %th(width="30%") Created On
+          %th Note
+          %th(width="10%") &nbsp;
+      %tbody
+        - @site_notes.each do |note|
+          %tr
+            %td
+              = note.created_at
+            %td
+              = best_in_place note, :note, type: :textarea
+            %td
+              = link_to note_url(note, current_tab: 'notes'),
+                        confirm: t('confirm.delete', name: "note created at #{note.created_at}"),
+                        method: :delete do
+                %span.glyphicon.glyphicon-remove
+              = link_to note_url(note, current_tab: 'notes') do
+                %span.glyphicon.glyphicon-chevron-right
+    = form_for :new_note, url: notes_path, class: 'form-inline' do |f|
+      %input(type="hidden" name="current_tab" value="notes")
+      = f.text_area :note, class: 'form-control', placeholder: 'New Note'
+      .spacer-v10
+      = f.button class: 'btn btn-default' do
+        Add Note
+        %span.glyphicon.glyphicon-plus
+    = paginate @site_notes, param_name: 'body_page', params: {current_tab: 'notes'}
